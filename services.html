@@ -15,6 +15,7 @@
   @keyframes mq { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.3; } }
   @media (max-width: 768px) {
+    html, body { overflow-x: hidden !important; }
     /* NAV */
     body > div:first-of-type { padding: 12px 16px !important; height: auto !important; min-height: 64px !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: center !important; }
     body > div:first-of-type > div { gap: 14px !important; flex-wrap: wrap !important; justify-content: center !important; }
