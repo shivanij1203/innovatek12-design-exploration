@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InnovateK12 | Video Library</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/lora@5.0.8/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/lora@5.0.8/700.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: white; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: white; margin: 0; }
+  .lora { font-family: 'Lora', Georgia, serif; }
+
+  /* Video card */
+  .video-card { transition: transform .25s, box-shadow .25s; cursor: pointer; }
+  .video-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(16,76,89,.15); }
+  .video-card:hover .play-overlay { opacity: 1; }
+  .video-card:hover .thumb-img { transform: scale(1.04); }
+  .play-overlay { transition: opacity .25s; }
+  .thumb-img { transition: transform .35s; }
+
+  /* Filter chip */
+  .filter-chip { transition: background .18s, color .18s, border-color .18s; cursor: pointer; }
+  .filter-chip:hover { background: #f3f9f9; }
+  .filter-chip.active { background: #104C59; color: white; border-color: #104C59; }
+  .filter-chip.active:hover { background: #0d3e48; }
+  .filter-chip.active .chip-count { background: rgba(255,255,255,.18); color: white; }
+
+  /* Series card */
+  .series-card { transition: transform .25s, box-shadow .25s; cursor: pointer; }
+  .series-card:hover { transform: translateY(-4px); box-shadow: 0 18px 42px rgba(16,76,89,.18); }
+
+  /* Search input */
+  .search-input:focus { border-color: #1ea7b6; box-shadow: 0 0 0 3px rgba(30,167,182,.12); }
+
+  /* Hide-on-filter */
+  .hidden-by-filter { display: none !important; }
+
+  /* Responsive grid fallback */
+  @media (max-width: 900px) {
+    .video-grid { grid-template-columns: 1fr 1fr !important; }
+    .series-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 560px) {
+    .video-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div style="background:white;display:flex;align-items:center;justify-content:space-between;padding:0 44px;height:80px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(16,76,89,.1)">
+  <a href="index.html" style="display:flex;align-items:center;text-decoration:none">
+    <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/787a7444-8408-4a46-a3e1-f1a33b3c3958/IK12Logo.png?format=300w" alt="InnovateK12" style="height:46px;object-fit:contain">
+  </a>
+  <div style="display:flex;gap:34px;align-items:center">
+    <a href="index.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">Home</a>
+    <a href="about.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">About</a>
+    <a href="services.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">Services</a>
+    <a href="#" style="font-size:16px;color:#F4771E;text-decoration:none;font-weight:600">Videos</a>
+    <button style="background:#1ea7b6;color:white;border:none;border-radius:100px;padding:11px 26px;font-size:15px;font-weight:500;cursor:pointer;margin-left:10px">Schedule Call</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div style="background:#104C59;padding:96px 40px 88px;position:relative;overflow:hidden">
+  <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/1757621184124-0QTKG7HQ5T7L3WT7F97E/unsplash-image-faEfWCdOKIg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none">
+  <div style="position:absolute;inset:0;background:linear-gradient(to right, rgba(16,76,89,.94) 0%, rgba(16,76,89,.84) 50%, rgba(16,76,89,.7) 100%);pointer-events:none"></div>
+
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(244,119,30,.16);border:1px solid rgba(244,119,30,.3);border-radius:100px;padding:5px 13px;margin-bottom:22px">
+      <div style="width:5px;height:5px;border-radius:50%;background:#F4771E"></div>
+      <span style="font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.08em;text-transform:uppercase">Video Library</span>
+    </div>
+
+    <h1 class="lora" style="font-size:44px;font-weight:700;color:white;line-height:1.14;margin-bottom:18px;max-width:780px">
+      Strategy, stories, and the <em style="color:#F4771E;font-style:italic">science</em> of community engagement
+    </h1>
+    <p style="font-size:15px;color:rgba(255,255,255,.82);line-height:1.7;max-width:560px;margin-bottom:28px">
+      Interviews with superintendents, deep-dives on AI in education, full webinars, and client stories from the districts we partner with. Watch and learn at your own pace.
+    </p>
+
+    <!-- Stats -->
+    <div style="display:flex;border-top:1px solid rgba(255,255,255,.14);padding-top:22px;flex-wrap:wrap;gap:0">
+      <div style="padding-right:24px">
+        <span class="lora" style="font-size:34px;font-weight:700;color:white;display:block;line-height:1">28</span>
+        <span style="font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;display:block;letter-spacing:.05em">Videos</span>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.12);margin-right:24px"></div>
+      <div style="padding-right:24px">
+        <span class="lora" style="font-size:34px;font-weight:700;color:white;display:block;line-height:1">5</span>
+        <span style="font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;display:block;letter-spacing:.05em">Topic categories</span>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.12);margin-right:24px"></div>
+      <div>
+        <span class="lora" style="font-size:34px;font-weight:700;color:#F4771E;display:block;line-height:1">2</span>
+        <span style="font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;display:block;letter-spacing:.05em">Multi-part series</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER + SEARCH BAND -->
+<div style="background:white;padding:36px 40px 28px;border-bottom:1px solid rgba(16,76,89,.08);position:sticky;top:80px;z-index:50;backdrop-filter:blur(8px);background:rgba(255,255,255,.92)">
+  <div style="max-width:1300px;margin:0 auto">
+
+    <!-- Search -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+      <div style="position:relative;flex:1;min-width:240px;max-width:480px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="position:absolute;left:18px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="11" cy="11" r="7" stroke="#8fa7ac" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="#8fa7ac" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="search-input" class="search-input" type="text" placeholder="Search videos by title or topic..." style="width:100%;background:#f3f9f9;border:1px solid transparent;border-radius:100px;padding:13px 20px 13px 46px;font-size:14.5px;color:#104C59;outline:none;font-family:inherit;transition:border-color .18s, box-shadow .18s">
+      </div>
+      <span id="result-count" style="font-size:13px;color:#8fa7ac">28 videos</span>
+    </div>
+
+    <!-- Category chips -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="filter-chips">
+      <button class="filter-chip active" data-category="all" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        All <span class="chip-count" style="background:rgba(16,76,89,.08);color:#104C59;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">28</span>
+      </button>
+      <button class="filter-chip" data-category="client-stories" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        Client Stories <span class="chip-count" style="background:rgba(244,119,30,.12);color:#b85a1e;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">11</span>
+      </button>
+      <button class="filter-chip" data-category="strategic-planning" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        Strategic Planning <span class="chip-count" style="background:rgba(30,167,182,.14);color:#0d6e7a;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">5</span>
+      </button>
+      <button class="filter-chip" data-category="ai" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        AI in Education <span class="chip-count" style="background:rgba(16,76,89,.1);color:#104C59;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">4</span>
+      </button>
+      <button class="filter-chip" data-category="human-innovation" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        Human Innovation <span class="chip-count" style="background:rgba(16,76,89,.08);color:#104C59;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">5</span>
+      </button>
+      <button class="filter-chip" data-category="educational" style="display:inline-flex;align-items:center;gap:8px;background:white;color:#45666f;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit">
+        Educational <span class="chip-count" style="background:rgba(244,119,30,.1);color:#F4771E;font-size:11.5px;font-weight:600;padding:1.5px 8px;border-radius:100px">3</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- FEATURED SERIES RAIL -->
+<div id="series-section" style="background:#f3f9f9;padding:64px 40px 56px">
+  <div style="max-width:1300px;margin:0 auto">
+    <div style="display:flex;align-items:end;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:14px">
+      <div>
+        <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#F4771E;margin-bottom:8px">Multi-part series</p>
+        <h2 class="lora" style="font-size:32px;font-weight:700;color:#104C59;line-height:1.2">Watch a series, end to end</h2>
+      </div>
+      <span style="font-size:13.5px;color:#45666f;max-width:380px">Curated playlists for when you want to go deeper than a single interview.</span>
+    </div>
+
+    <div class="series-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+      <!-- Series 1: AI in Education -->
+      <div class="series-card" data-series="ai" style="background:white;border-radius:20px;overflow:hidden;box-shadow:0 6px 22px rgba(16,76,89,.06);display:grid;grid-template-columns:1.05fr 1fr">
+        <div style="position:relative;background:#104C59;min-height:240px">
+          <img src="https://i.ytimg.com/vi/drbH0HNVQkU/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(16,76,89,.85) 0%, rgba(16,76,89,.65) 100%)"></div>
+          <div style="position:relative;padding:26px;height:100%;display:flex;flex-direction:column;justify-content:space-between">
+            <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:white;padding:5px 12px;border-radius:100px;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(4px)">4-Part Series</div>
+            <div>
+              <div class="lora" style="color:white;font-size:24px;font-weight:700;line-height:1.25;margin-bottom:6px">The 101 on AI in Education</div>
+              <div style="color:rgba(255,255,255,.78);font-size:13px">Infringement, copyright, security, and disclosure</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:8px;justify-content:center">
+          <div data-video-id="drbH0HNVQkU" data-video-title="AI in Education - Infringement" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('drbH0HNVQkU')">
+            <span style="width:22px;height:22px;border-radius:50%;background:#F4771E;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Infringement</span>
+          </div>
+          <div data-video-id="uck8ssI0UqM" data-video-title="AI in Education - Ownership and Copyright" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('uck8ssI0UqM')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(244,119,30,.15);color:#b85a1e;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Ownership and Copyright</span>
+          </div>
+          <div data-video-id="x7-R2B5lV9o" data-video-title="AI in Education - Security and Privacy" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('x7-R2B5lV9o')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(244,119,30,.15);color:#b85a1e;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Security and Privacy</span>
+          </div>
+          <div data-video-id="2nysfo3oEJk" data-video-title="AI in Education - Accuracy and Disclosure" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('2nysfo3oEJk')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(244,119,30,.15);color:#b85a1e;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Accuracy and Disclosure</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Series 2: 101 on Strategic Planning -->
+      <div class="series-card" data-series="sp" style="background:white;border-radius:20px;overflow:hidden;box-shadow:0 6px 22px rgba(16,76,89,.06);display:grid;grid-template-columns:1.05fr 1fr">
+        <div style="position:relative;background:#1ea7b6;min-height:240px">
+          <img src="https://i.ytimg.com/vi/EeXcq4SIDs4/hqdefault.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(16,76,89,.85) 0%, rgba(30,167,182,.55) 100%)"></div>
+          <div style="position:relative;padding:26px;height:100%;display:flex;flex-direction:column;justify-content:space-between">
+            <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:white;padding:5px 12px;border-radius:100px;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(4px)">5-Part Series</div>
+            <div>
+              <div class="lora" style="color:white;font-size:24px;font-weight:700;line-height:1.25;margin-bottom:6px">The 101 on Strategic Planning</div>
+              <div style="color:rgba(255,255,255,.78);font-size:13px">Featuring Steve Murley, on board sync and sustained leadership</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:8px;justify-content:center">
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('EeXcq4SIDs4')">
+            <span style="width:22px;height:22px;border-radius:50%;background:#1ea7b6;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Full interview with Steve Murley</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('DZ-heOha8FQ')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(30,167,182,.15);color:#0d6e7a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">The first 100 days for superintendents</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('RAM-TxcT2B8')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(30,167,182,.15);color:#0d6e7a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Get in sync with your board</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('U1c9UBlhCBc')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(30,167,182,.15);color:#0d6e7a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">Maximizing your board relationship</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .18s" onmouseover="this.style.background='#f3f9f9'" onmouseout="this.style.background='transparent'" onclick="openVideo('ZZAG-_4vF7w')">
+            <span style="width:22px;height:22px;border-radius:50%;background:rgba(30,167,182,.15);color:#0d6e7a;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</span>
+            <span style="font-size:13.5px;color:#104C59;font-weight:500;line-height:1.4">How planning drives sustained leadership</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ALL VIDEOS GRID -->
+<div style="background:white;padding:72px 40px 88px">
+  <div style="max-width:1300px;margin:0 auto">
+    <div style="margin-bottom:32px">
+      <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#F4771E;margin-bottom:8px">Browse all</p>
+      <h2 id="grid-heading" class="lora" style="font-size:32px;font-weight:700;color:#104C59;line-height:1.2">Every video, in one place</h2>
+    </div>
+
+    <div class="video-grid" id="video-grid" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:28px">
+
+      <!-- 1 Crowdsourcing Stakeholder Data -->
+      <div class="video-card" data-category="client-stories" data-title="crowdsourcing stakeholder data action plan school district success" data-video-id="JfiBBt0fjhk" data-video-title="Crowdsourcing Stakeholder Data to Generate an Action Plan" onclick="openVideo('JfiBBt0fjhk')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/JfiBBt0fjhk/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Crowdsourcing Stakeholder Data to Generate an Action Plan</h3>
+        </div>
+      </div>
+
+      <!-- 2 Why Strategy and Voice -->
+      <div class="video-card" data-category="client-stories" data-title="why strategy voice deeper insights school district success" data-video-id="DGzrJY9tqRM" data-video-title="Why Strategy and Voice Yields Deeper Insights" onclick="openVideo('DGzrJY9tqRM')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/DGzrJY9tqRM/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Why Strategy and Voice Yields Deeper Insights</h3>
+        </div>
+      </div>
+
+      <!-- 3 Negative feedback -->
+      <div class="video-card" data-category="human-innovation" data-title="community engagement negative feedback shannon cox mcesc" data-video-id="oxlUaG4fiSg" data-video-title="Community Engagement Strategy for Receiving Negative Feedback" onclick="openVideo('oxlUaG4fiSg')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/oxlUaG4fiSg/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.92);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Human Innovation</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">Community Engagement Strategy for Receiving Negative Feedback</h3>
+          <p style="font-size:13px;color:#8fa7ac">Shannon Cox · MCESC</p>
+        </div>
+      </div>
+
+      <!-- 4 Dr. Ann Majchrzak -->
+      <div class="video-card" data-category="human-innovation" data-title="community collaboration dr ann majchrzak" data-video-id="L86o6sa87Vk" data-video-title="Community Collaboration for School District Success - Dr. Ann Majchrzak" onclick="openVideo('L86o6sa87Vk')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/L86o6sa87Vk/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.92);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Human Innovation</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">Community Collaboration for School District Success</h3>
+          <p style="font-size:13px;color:#8fa7ac">Dr. Ann Majchrzak · USC Marshall</p>
+        </div>
+      </div>
+
+      <!-- 5 4 Parts to Community Engagement -->
+      <div class="video-card" data-category="educational" data-title="4 parts community engagement" data-video-id="MwkvvVfRB9o" data-video-title="4 Parts to Community Engagement" onclick="openVideo('MwkvvVfRB9o')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/MwkvvVfRB9o/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.85);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Educational</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">4 Parts to Community Engagement</h3>
+        </div>
+      </div>
+
+      <!-- 6 Steve Murley -->
+      <div class="video-card" data-category="strategic-planning" data-title="101 strategic planning steve murley full interview" data-video-id="EeXcq4SIDs4" data-video-title="The 101 on Strategic Planning - Full Interview with Steve Murley" onclick="openVideo('EeXcq4SIDs4')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/EeXcq4SIDs4/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(30,167,182,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Strategic Planning</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">The 101 on Strategic Planning - Full Interview</h3>
+          <p style="font-size:13px;color:#8fa7ac">Featuring Steve Murley</p>
+        </div>
+      </div>
+
+      <!-- 7 FCPS Capturing Community Voice -->
+      <div class="video-card" data-category="client-stories" data-title="capturing community voice fcps frederick county strategic planning" data-video-id="XFf3Ym3Fg3E" data-video-title="Capturing Community Voice: FCPS Transforms Strategic Planning with InnovateK12" onclick="openVideo('XFf3Ym3Fg3E')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/XFf3Ym3Fg3E/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">Capturing Community Voice: FCPS Transforms Strategic Planning</h3>
+          <p style="font-size:13px;color:#8fa7ac">Frederick County Public Schools</p>
+        </div>
+      </div>
+
+      <!-- 8 FCPS Strategic Plan Inspires -->
+      <div class="video-card" data-category="client-stories" data-title="frederick county fcps strategic plan inspires community" data-video-id="WnjJ4fzXtjg" data-video-title="Frederick County Public School's Strategic Plan Inspires Community" onclick="openVideo('WnjJ4fzXtjg')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/WnjJ4fzXtjg/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">Frederick County Public Schools Strategic Plan Inspires Community</h3>
+          <p style="font-size:13px;color:#8fa7ac">Frederick County Public Schools</p>
+        </div>
+      </div>
+
+      <!-- 9 Achieve Success Through Stakeholder Feedback -->
+      <div class="video-card" data-category="educational" data-title="achieve success stakeholder feedback superintendents" data-video-id="R2L9P8F2cro" data-video-title="Achieve Success Through Stakeholder Feedback" onclick="openVideo('R2L9P8F2cro')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/R2L9P8F2cro/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.85);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Educational</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Achieve Success Through Stakeholder Feedback</h3>
+        </div>
+      </div>
+
+      <!-- 10 Transformed Community Input -->
+      <div class="video-card" data-category="client-stories" data-title="innovatek12 transformed community input clear priorities actionable goals" data-video-id="a8OAc9dv3Ow" data-video-title="How InnovateK12 Transformed Community Input Into Clear Priorities and Actionable Goals" onclick="openVideo('a8OAc9dv3Ow')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/a8OAc9dv3Ow/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">How InnovateK12 Transformed Community Input Into Clear Priorities</h3>
+        </div>
+      </div>
+
+      <!-- 11 Optimizing School District Success -->
+      <div class="video-card" data-category="client-stories" data-title="optimizing school district success innovate k12 services" data-video-id="W-wvmiYKVAo" data-video-title="Optimizing School District Success through Innovate K12's Services" onclick="openVideo('W-wvmiYKVAo')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/W-wvmiYKVAo/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Optimizing School District Success through InnovateK12 Services</h3>
+        </div>
+      </div>
+
+      <!-- 12 Bond Referendums -->
+      <div class="video-card" data-category="client-stories" data-title="bond referendums client testimonial" data-video-id="csAxiskl8ZE" data-video-title="Navigating the Challenges of Bond Referendums - Client Testimonial" onclick="openVideo('csAxiskl8ZE')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/csAxiskl8ZE/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Navigating the Challenges of Bond Referendums</h3>
+        </div>
+      </div>
+
+      <!-- 13 Science of Effective Community Engagement -->
+      <div class="video-card" data-category="educational" data-title="science effective community engagement edweb webinar" data-video-id="H4bMLEZbibs" data-video-title="The Science of Effective Community Engagement - edWeb Webinar" onclick="openVideo('H4bMLEZbibs')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/H4bMLEZbibs/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.85);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Educational · Webinar</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">The Science of Effective Community Engagement</h3>
+          <p style="font-size:13px;color:#8fa7ac;margin-top:6px">edWeb webinar</p>
+        </div>
+      </div>
+
+      <!-- 14 Sustained Leadership -->
+      <div class="video-card" data-category="strategic-planning" data-title="successful strategic planning sustained leadership 101" data-video-id="ZZAG-_4vF7w" data-video-title="How Successful Strategic Planning Drives Sustained Leadership" onclick="openVideo('ZZAG-_4vF7w')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/ZZAG-_4vF7w/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(30,167,182,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Strategic Planning</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">How Successful Strategic Planning Drives Sustained Leadership</h3>
+        </div>
+      </div>
+
+      <!-- 15 AI Pt 4 -->
+      <div class="video-card" data-category="ai" data-title="ai education accuracy disclosure 101 part 4" data-video-id="2nysfo3oEJk" data-video-title="The 101 on AI in Education - Accuracy and Disclosure" onclick="openVideo('2nysfo3oEJk')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/2nysfo3oEJk/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">AI · Pt 4</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">AI in Education: Accuracy and Disclosure</h3>
+        </div>
+      </div>
+
+      <!-- 16 AI Pt 3 -->
+      <div class="video-card" data-category="ai" data-title="ai education security privacy 101 part 3" data-video-id="x7-R2B5lV9o" data-video-title="The 101 on AI in Education - Security and Privacy" onclick="openVideo('x7-R2B5lV9o')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/x7-R2B5lV9o/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">AI · Pt 3</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">AI in Education: Security and Privacy</h3>
+        </div>
+      </div>
+
+      <!-- 17 AI Pt 2 -->
+      <div class="video-card" data-category="ai" data-title="ai education ownership copyright 101 part 2" data-video-id="uck8ssI0UqM" data-video-title="The 101 on AI in Education - Ownership and Copyright" onclick="openVideo('uck8ssI0UqM')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/uck8ssI0UqM/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">AI · Pt 2</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">AI in Education: Ownership and Copyright</h3>
+        </div>
+      </div>
+
+      <!-- 18 AI Pt 1 -->
+      <div class="video-card" data-category="ai" data-title="ai education infringement 101 part 1" data-video-id="drbH0HNVQkU" data-video-title="The 101 on AI in Education - Infringement" onclick="openVideo('drbH0HNVQkU')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/drbH0HNVQkU/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">AI · Pt 1</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">AI in Education: Infringement</h3>
+        </div>
+      </div>
+
+      <!-- 19 Kelly Geers -->
+      <div class="video-card" data-category="client-stories" data-title="value sentiments data analytics kelly geers mcesc" data-video-id="v3HOHLMWnd8" data-video-title="The Value of Sentiments in Data Analytics with Kelly Geers from MCESC" onclick="openVideo('v3HOHLMWnd8')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/v3HOHLMWnd8/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">The Value of Sentiments in Data Analytics</h3>
+          <p style="font-size:13px;color:#8fa7ac">Kelly Geers · MCESC</p>
+        </div>
+      </div>
+
+      <!-- 20 First 100 Days -->
+      <div class="video-card" data-category="strategic-planning" data-title="first 100 days superintendents 101 strategic planning" data-video-id="DZ-heOha8FQ" data-video-title="The 101 on Strategic Planning - The First 100 Days for Superintendents" onclick="openVideo('DZ-heOha8FQ')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/DZ-heOha8FQ/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(30,167,182,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Strategic Planning</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">The First 100 Days for Superintendents</h3>
+        </div>
+      </div>
+
+      <!-- 21 Transforming Education Strategy -->
+      <div class="video-card" data-category="client-stories" data-title="transforming education strategy collaboration across districts" data-video-id="vaFBIl5zHB4" data-video-title="Transforming Education Strategy: Collaboration Across Districts with InnovateK12" onclick="openVideo('vaFBIl5zHB4')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/vaFBIl5zHB4/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Transforming Education Strategy: Collaboration Across Districts</h3>
+        </div>
+      </div>
+
+      <!-- 22 FCPS Built Trust -->
+      <div class="video-card" data-category="client-stories" data-title="fcps built trust strategic planning frederick county" data-video-id="k8HkMPiix58" data-video-title="How FCPS Built Trust in Strategic Planning with InnovateK12" onclick="openVideo('k8HkMPiix58')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/k8HkMPiix58/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">How FCPS Built Trust in Strategic Planning</h3>
+          <p style="font-size:13px;color:#8fa7ac">Frederick County Public Schools</p>
+        </div>
+      </div>
+
+      <!-- 23 FCPS Pilot -->
+      <div class="video-card" data-category="client-stories" data-title="partnership action frederick county fcps pilot strategic planning portal" data-video-id="GHABX691_UY" data-video-title="Partnership in Action: Frederick County Public Schools to Pilot Strategic Planning Portal" onclick="openVideo('GHABX691_UY')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/GHABX691_UY/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(244,119,30,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Client Story</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35;margin-bottom:6px">Partnership in Action: FCPS Pilots Strategic Planning Portal</h3>
+          <p style="font-size:13px;color:#8fa7ac">Frederick County Public Schools</p>
+        </div>
+      </div>
+
+      <!-- 24 Board Relationship -->
+      <div class="video-card" data-category="strategic-planning" data-title="maximizing board relationship sustained leadership 101" data-video-id="U1c9UBlhCBc" data-video-title="The 101 on Strategic Planning - How Maximizing Your Board Relationship Drives Sustained Leadership" onclick="openVideo('U1c9UBlhCBc')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/U1c9UBlhCBc/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(30,167,182,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Strategic Planning</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">How Maximizing Your Board Relationship Drives Sustained Leadership</h3>
+        </div>
+      </div>
+
+      <!-- 25 Get In Sync With Board -->
+      <div class="video-card" data-category="strategic-planning" data-title="get in sync board drive success 101" data-video-id="RAM-TxcT2B8" data-video-title="The 101 on Strategic Planning - How to Get in Sync with Your Board to Drive Success" onclick="openVideo('RAM-TxcT2B8')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/RAM-TxcT2B8/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(30,167,182,.95);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Strategic Planning</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">How to Get in Sync with Your Board to Drive Success</h3>
+        </div>
+      </div>
+
+      <!-- 26 Innovation Can Be Incremental -->
+      <div class="video-card" data-category="human-innovation" data-title="innovation can be incremental" data-video-id="keYM3Tvk0PU" data-video-title="Innovation Can Be Incremental" onclick="openVideo('keYM3Tvk0PU')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/keYM3Tvk0PU/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.92);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Human Innovation</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Innovation Can Be Incremental</h3>
+        </div>
+      </div>
+
+      <!-- 27 Making Innovation Accessible -->
+      <div class="video-card" data-category="human-innovation" data-title="making innovation accessible schools" data-video-id="p-9h3SlppZk" data-video-title="Making Innovation More Accessible for Schools" onclick="openVideo('p-9h3SlppZk')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/p-9h3SlppZk/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.92);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Human Innovation</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Making Innovation More Accessible for Schools</h3>
+        </div>
+      </div>
+
+      <!-- 28 Collective Collaboration -->
+      <div class="video-card" data-category="human-innovation" data-title="comparing effectiveness collective collaboration knowledge sharing individual ideas" data-video-id="sXNP5_M0fHg" data-video-title="Comparing the Effectiveness of Collective Collaboration vs. Individual Ideas" onclick="openVideo('sXNP5_M0fHg')" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(16,76,89,.06)">
+        <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#000">
+          <img class="thumb-img" src="https://i.ytimg.com/vi/sXNP5_M0fHg/hqdefault.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="play-overlay" style="opacity:0;position:absolute;inset:0;background:rgba(16,76,89,.4);display:flex;align-items:center;justify-content:center"><div style="width:54px;height:54px;border-radius:50%;background:#F4771E;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="margin-left:3px"><path d="M8 5v14l11-7z"/></svg></div></div>
+          <div style="position:absolute;top:10px;left:10px;background:rgba(16,76,89,.92);color:white;padding:3.5px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Human Innovation</div>
+        </div>
+        <div style="padding:18px 18px 20px">
+          <h3 class="lora" style="font-size:16.5px;font-weight:700;color:#104C59;line-height:1.35">Collective Collaboration vs. Individual Ideas</h3>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" style="display:none;padding:64px 20px;text-align:center">
+      <div style="width:64px;height:64px;border-radius:50%;background:#f3f9f9;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#8fa7ac" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="#8fa7ac" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <p class="lora" style="font-size:20px;color:#104C59;font-weight:700;margin-bottom:8px">No videos match your search</p>
+      <p style="font-size:14px;color:#8fa7ac">Try a different keyword or category.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA STRIP -->
+<div style="background:#FFE8D1;padding:64px 40px">
+  <div style="max-width:1100px;margin:0 auto;text-align:center">
+    <h2 class="lora" style="font-size:34px;font-weight:700;color:#104C59;line-height:1.2;margin-bottom:14px">Want to be the next district success story?</h2>
+    <p style="font-size:15.5px;color:#45666f;line-height:1.65;max-width:620px;margin:0 auto 26px">Book a free consult and we will show you what a strategic planning process powered by your community could look like for your district.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button style="background:#F4771E;color:white;border:none;border-radius:100px;padding:14px 30px;font-size:15px;font-weight:500;cursor:pointer">Book a free consult</button>
+      <button style="background:transparent;color:#104C59;border:1px solid rgba(16,76,89,.25);border-radius:100px;padding:14px 30px;font-size:15px;font-weight:500;cursor:pointer">View services →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="background:white;padding:64px 44px 28px;border-top:1px solid rgba(16,76,89,.08)">
+  <div style="max-width:1400px;margin:0 auto">
+
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start;margin-bottom:48px">
+      <div style="min-width:0">
+        <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/787a7444-8408-4a46-a3e1-f1a33b3c3958/IK12Logo.png?format=300w" alt="InnovateK12" style="height:52px;object-fit:contain;display:block;margin-bottom:22px">
+        <p style="font-size:14.5px;color:#45666f;line-height:1.7;margin:0 0 22px;max-width:520px">We are a crowdsourcing platform that leverages and optimizes the science of human interaction and innovation to drive more dynamic and effective solutions for school districts.</p>
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(30,167,182,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="font-size:13.5px;color:#45666f">hello@innovatek12.com</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(244,119,30,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#F4771E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="#F4771E" stroke-width="1.8"/></svg></div>
+            <span style="font-size:13.5px;color:#45666f">Serving districts nationwide</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#f3f9f9;border-radius:18px;padding:32px 32px 28px;min-width:0">
+        <p class="lora" style="font-size:21px;font-weight:700;color:#104C59;margin:0 0 8px">Stay informed</p>
+        <p style="font-size:14px;color:#45666f;line-height:1.6;margin:0 0 20px">Strategic planning insights, district success stories, and resources delivered monthly.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="email" placeholder="Enter your email" style="flex:1;min-width:200px;background:white;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:13px 20px;font-size:14.5px;color:#104C59;outline:none;font-family:inherit">
+          <button style="background:#1ea7b6;color:white;border:none;border-radius:100px;padding:13px 28px;font-size:14.5px;font-weight:500;cursor:pointer;flex-shrink:0;white-space:nowrap">Subscribe</button>
+        </div>
+        <p style="font-size:12px;color:#8fa7ac;margin:14px 0 0">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:22px 0;border-top:1px solid rgba(16,76,89,.08)">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-left:-14px">
+        <a href="index.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Home</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="about.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">About</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="services.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Services</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="#" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Videos</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="https://www.innovatek12.org/innovatek20-about" target="_blank" rel="noopener" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">InnovateK20</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="#" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Contact</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="#" style="font-size:15px;color:#F4771E;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:100px">Book a Free Consult</a>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="#" aria-label="Instagram" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#104C59" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="#104C59" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="#104C59"/></svg></a>
+        <a href="#" aria-label="LinkedIn" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="#104C59" stroke-width="1.5"/><rect x="2" y="9" width="4" height="12" stroke="#104C59" stroke-width="1.5"/><circle cx="4" cy="4" r="2" stroke="#104C59" stroke-width="1.5"/></svg></a>
+        <a href="#" aria-label="Facebook" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="#104C59" stroke-width="1.5" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+
+    <div style="padding:22px 0 4px;border-top:1px solid rgba(16,76,89,.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+      <span style="font-size:13.5px;color:#8fa7ac">© 2026 InnovateK12. All rights reserved.</span>
+      <div style="display:flex;align-items:center;gap:22px">
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Privacy Policy</a>
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Terms of Service</a>
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Cookies</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Open YouTube in a new tab
+  function openVideo(videoId) {
+    window.open('https://www.youtube.com/watch?v=' + videoId, '_blank', 'noopener,noreferrer');
+  }
+
+  // Filter chip handler
+  let activeCategory = 'all';
+  let activeSearch = '';
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      activeCategory = this.dataset.category;
+      applyFilters();
+    });
+  });
+
+  // Search handler
+  document.getElementById('search-input').addEventListener('input', function(e) {
+    activeSearch = e.target.value.toLowerCase().trim();
+    applyFilters();
+  });
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.video-card');
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const cat = card.dataset.category;
+      const title = card.dataset.title || '';
+      const titleAttr = card.dataset.videoTitle || '';
+      const matchCat = activeCategory === 'all' || cat === activeCategory;
+      const matchSearch = !activeSearch || title.includes(activeSearch) || titleAttr.toLowerCase().includes(activeSearch);
+      if (matchCat && matchSearch) {
+        card.classList.remove('hidden-by-filter');
+        visibleCount++;
+      } else {
+        card.classList.add('hidden-by-filter');
+      }
+    });
+
+    // Update count
+    const countEl = document.getElementById('result-count');
+    countEl.textContent = visibleCount === 1 ? '1 video' : visibleCount + ' videos';
+
+    // Update heading
+    const headingEl = document.getElementById('grid-heading');
+    if (activeCategory === 'all' && !activeSearch) {
+      headingEl.textContent = 'Every video, in one place';
+    } else if (activeSearch) {
+      headingEl.textContent = 'Results for "' + activeSearch + '"';
+    } else {
+      const labelMap = {
+        'client-stories': 'Client stories',
+        'strategic-planning': 'Strategic planning',
+        'ai': 'AI in education',
+        'human-innovation': 'Human innovation',
+        'educational': 'Educational'
+      };
+      headingEl.textContent = labelMap[activeCategory] || 'Videos';
+    }
+
+    // Empty state
+    document.getElementById('empty-state').style.display = visibleCount === 0 ? 'block' : 'none';
+    document.getElementById('video-grid').style.display = visibleCount === 0 ? 'none' : 'grid';
+
+    // Hide series section when filtered to a non-series category
+    const seriesSection = document.getElementById('series-section');
+    if (activeSearch || (activeCategory !== 'all' && activeCategory !== 'ai' && activeCategory !== 'strategic-planning')) {
+      seriesSection.style.display = 'none';
+    } else {
+      seriesSection.style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+</html>
