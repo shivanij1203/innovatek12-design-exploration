@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="One place for district data, with dashboards, scorecards, and an assistant that answers questions in plain language and shows the evidence.">
+<meta name="robots" content="noindex">
+<title>InnovateK12 | District Intelligence Platform</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/lora@5.0.8/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/lora@5.0.8/700.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: white; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: white; margin: 0; display: flex; flex-direction: column; gap: 0; }
+  body > div { flex-shrink: 0; box-sizing: border-box; }
+  .lora { font-family: 'Lora', Georgia, serif; }
+  .svc-card { transition: transform .25s, box-shadow .25s; }
+  .svc-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(16,76,89,.18); }
+  @media (max-width: 768px) {
+    html, body { overflow-x: hidden !important; }
+    /* NAV */
+    body > div:first-of-type { padding: 12px 16px !important; height: auto !important; min-height: 64px !important; flex-wrap: wrap !important; gap: 10px !important; justify-content: center !important; }
+    body > div:first-of-type > div { gap: 14px !important; flex-wrap: wrap !important; justify-content: center !important; }
+    body > div:first-of-type a, body > div:first-of-type button { font-size: 13px !important; }
+    body > div:first-of-type a[href*="calendly"], body > div:first-of-type button { padding: 8px 16px !important; margin-left: 0 !important; }
+    body > div:first-of-type img { height: 36px !important; }
+
+    /* SECTION GUTTERS + VERTICAL PADDING */
+    body > div:not(:first-of-type) { padding-left: 20px !important; padding-right: 20px !important; }
+    div[style*="padding:96px"] { padding-top: 56px !important; padding-bottom: 56px !important; }
+    div[style*="padding:88px"] { padding-top: 56px !important; padding-bottom: 48px !important; }
+    div[style*="padding:80px"] { padding-top: 48px !important; padding-bottom: 48px !important; }
+    div[style*="padding:64px"] { padding-top: 44px !important; padding-bottom: 44px !important; }
+    div[style*="padding:56px"] { padding-top: 40px !important; padding-bottom: 40px !important; }
+
+    /* TYPOGRAPHY */
+    h1 { font-size: 34px !important; line-height: 1.15 !important; }
+    h2 { font-size: 26px !important; line-height: 1.25 !important; }
+    h3 { font-size: 21px !important; line-height: 1.3 !important; }
+
+    /* COLLAPSE GRIDS */
+    [style*="grid-template-columns:1fr 1fr"],
+    [style*="grid-template-columns:repeat(2,1fr)"],
+    [style*="grid-template-columns:repeat(3,1fr)"],
+    [style*="grid-template-columns:repeat(3, 1fr)"],
+    [style*="grid-template-columns:repeat(4,1fr)"],
+    [style*="grid-template-columns:1.05fr 1fr"],
+    [style*="grid-template-columns:1.1fr 1fr"],
+    [style*="grid-template-columns:1.4fr 1fr"],
+    [style*="grid-template-columns:1.1fr 0.9fr"],
+    [style*="grid-template-columns:auto 1fr"] {
+      grid-template-columns: 1fr !important;
+      gap: 28px !important;
+    }
+
+    /* FOOTER LINK ROW: STACK */
+    div[style*="display:flex"][style*="justify-content:space-between"][style*="border-top:1px solid rgba(16,76,89,.08)"] { flex-direction: column !important; align-items: center !important; gap: 16px !important; }
+
+    /* MEDIA SAFETY */
+    img { max-width: 100% !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div style="background:white;display:flex;align-items:center;justify-content:space-between;padding:0 44px;height:80px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(16,76,89,.1)">
+  <a href="index.html" style="display:flex;align-items:center;text-decoration:none">
+    <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/787a7444-8408-4a46-a3e1-f1a33b3c3958/IK12Logo.png?format=300w" alt="InnovateK12" style="height:46px;object-fit:contain">
+  </a>
+  <div style="display:flex;gap:34px;align-items:center">
+    <a href="index.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">Home</a>
+    <a href="platform.html" style="font-size:16px;color:#F4771E;text-decoration:none;font-weight:600">Platform</a>
+    <a href="about.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">About</a>
+    <a href="services.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">Services</a>
+    <a href="videos.html" style="font-size:16px;color:#45666f;text-decoration:none;font-weight:500">Videos</a>
+    <a href="https://calendly.com/hailpernj" target="_blank" rel="noopener" style="background:#1ea7b6;color:white;border:none;border-radius:100px;padding:11px 26px;font-size:15px;font-weight:500;text-decoration:none;margin-left:10px">Schedule Call</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div style="background:#104C59;padding:96px 40px 88px;position:relative;overflow:hidden">
+  <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/1757621184124-0QTKG7HQ5T7L3WT7F97E/unsplash-image-faEfWCdOKIg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none">
+  <div style="position:absolute;inset:0;background:linear-gradient(to right, rgba(16,76,89,.94) 0%, rgba(16,76,89,.86) 50%, rgba(16,76,89,.72) 100%);pointer-events:none"></div>
+  <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(244,119,30,.10);pointer-events:none"></div>
+
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(244,119,30,.16);border:1px solid rgba(244,119,30,.3);border-radius:100px;padding:5px 13px;margin-bottom:22px">
+      <div style="width:5px;height:5px;border-radius:50%;background:#F4771E"></div>
+      <span style="font-size:11px;color:rgba(255,255,255,.85);letter-spacing:.08em;text-transform:uppercase">The platform</span>
+    </div>
+
+    <h1 class="lora" style="font-size:52px;font-weight:700;color:white;line-height:1.12;margin-bottom:22px;max-width:820px">
+      Talk to your district's data, and <em style="color:#F4771E;font-style:italic">trust</em> the answer.
+    </h1>
+    <p style="font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;max-width:660px;margin-bottom:32px">
+      Dashboards, scorecards, and an assistant all read from one place for your district's data, and every answer shows the evidence behind it.
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="https://calendly.com/hailpernj" target="_blank" rel="noopener" style="display:inline-block;background:#F4771E;color:white;border:none;border-radius:100px;padding:13px 28px;font-size:14.5px;font-weight:500;text-decoration:none">Book a free consult</a>
+      <a href="about.html" style="display:inline-block;background:transparent;color:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.32);border-radius:100px;padding:13px 28px;font-size:14.5px;text-decoration:none;backdrop-filter:blur(4px)">How we started &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<!-- WHERE WE STARTED / WHERE WE ARE NOW -->
+<div style="background:white;padding:96px 40px 80px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start">
+
+      <div>
+        <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#F4771E;margin-bottom:10px">Where we started</p>
+        <h2 class="lora" style="font-size:30px;font-weight:700;color:#104C59;line-height:1.25;margin-bottom:16px">Strategic planning is still the heart of this work.</h2>
+        <p style="font-size:15.5px;color:#45666f;line-height:1.75;margin-bottom:14px">
+          We bring students, staff, families, and partners into the conversation. Then we turn what they say into a plan with clear goals, owners, and timelines.
+        </p>
+        <p style="font-size:15.5px;color:#45666f;line-height:1.75">
+          That work has not changed, and it is not going anywhere. Community engagement is where every plan starts.
+        </p>
+      </div>
+
+      <div>
+        <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#1ea7b6;margin-bottom:10px">Where we are now</p>
+        <h2 class="lora" style="font-size:30px;font-weight:700;color:#104C59;line-height:1.25;margin-bottom:16px">A plan only works if it stays live.</h2>
+        <p style="font-size:15.5px;color:#45666f;line-height:1.75;margin-bottom:14px">
+          The platform grew out of that need. It holds district data in one place and keeps the goals from the plan in front of your team all year.
+        </p>
+        <p style="font-size:15.5px;color:#45666f;line-height:1.75">
+          Progress stays visible between board meetings. When someone asks how a goal is going, the answer is already there.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CAPABILITIES -->
+<div style="background:#f3f9f9;padding:88px 40px 80px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:52px">
+      <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#F4771E;margin-bottom:10px">Capabilities</p>
+      <h2 class="lora" style="font-size:38px;font-weight:700;color:#104C59;margin-bottom:14px;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.2">
+        Three ways to read the same district data
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px">
+
+      <div class="svc-card" style="background:white;border-radius:18px;padding:32px 28px;border:1px solid rgba(30,167,182,.15)">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(30,167,182,.14);display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18 M7 15l4-4 3 3 5-6" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="lora" style="font-size:21px;font-weight:700;color:#104C59;margin-bottom:10px">Dashboards</p>
+        <p style="font-size:14.5px;color:#45666f;line-height:1.7">See where things stand. Your leadership team opens one view for attendance, achievement, staffing, and the other measures you choose to track.</p>
+      </div>
+
+      <div class="svc-card" style="background:white;border-radius:18px;padding:32px 28px;border:1px solid rgba(244,119,30,.15)">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(244,119,30,.14);display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 11l2 2 4-4 M4 4h16v16H4z" stroke="#F4771E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="lora" style="font-size:21px;font-weight:700;color:#104C59;margin-bottom:10px">Scorecards</p>
+        <p style="font-size:14.5px;color:#45666f;line-height:1.7">Track the goals in your plan. Each goal carries its own measures, so you can tell real progress from activity.</p>
+      </div>
+
+      <div class="svc-card" style="background:white;border-radius:18px;padding:32px 28px;border:1px solid rgba(16,76,89,.15)">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(16,76,89,.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12a8 8 0 01-8 8H7l-4 3V12a8 8 0 018-8h2a8 8 0 018 8z" stroke="#104C59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="lora" style="font-size:21px;font-weight:700;color:#104C59;margin-bottom:10px">AI Assistant</p>
+        <p style="font-size:14.5px;color:#45666f;line-height:1.7">Ask in plain language. You get a direct answer with the evidence attached, so you can check the source before you act.</p>
+      </div>
+
+    </div>
+
+    <p style="font-size:15px;color:#45666f;line-height:1.7;text-align:center;max-width:680px;margin:0 auto">
+      All three read from the same district data, so the dashboard, the scorecard, and the assistant never disagree.
+    </p>
+  </div>
+</div>
+
+<!-- ASSISTANT MOCKUP -->
+<div style="background:white;padding:88px 40px 88px">
+  <div style="max-width:820px;margin:0 auto">
+
+    <p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8fa7ac;margin-bottom:14px;text-align:center">Illustrative example with sample data</p>
+
+    <div style="background:white;border:1px solid rgba(16,76,89,.14);border-radius:20px;box-shadow:0 18px 50px rgba(16,76,89,.12);overflow:hidden">
+
+      <div style="display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid rgba(16,76,89,.09);background:#f3f9f9">
+        <div style="width:32px;height:32px;border-radius:9px;background:rgba(30,167,182,.16);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 21h18 M5 21V8l7-5 7 5v13 M10 21v-6h4v6" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span style="font-size:14.5px;font-weight:600;color:#104C59">Sample Unified School District</span>
+      </div>
+
+      <div style="padding:26px 24px 8px;display:flex;justify-content:flex-end">
+        <div style="background:#104C59;color:white;border-radius:18px 18px 4px 18px;padding:14px 20px;max-width:78%;font-size:15px;line-height:1.6">
+          How did chronic absenteeism change at our middle schools this year?
+        </div>
+      </div>
+
+      <div style="padding:14px 24px 26px;display:flex;justify-content:flex-start">
+        <div style="background:#f3f9f9;border:1px solid rgba(16,76,89,.09);border-radius:18px 18px 18px 4px;padding:18px 22px;max-width:88%">
+          <p style="font-size:15px;color:#104C59;line-height:1.65;margin-bottom:16px">
+            Chronic absenteeism across your middle schools fell from 18% to 15% this year. Middle School A accounts for most of that change, moving from 22% to 16%. Middle School B held steady at about 14%.
+          </p>
+
+          <p style="font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8fa7ac;margin-bottom:10px">Evidence</p>
+
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:13px;color:#45666f">Sample 2024-25 Attendance Report (demo data)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:13px;color:#45666f">Sample Middle School Enrollment File (demo data)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:13px;color:#45666f">Sample Strategic Plan Goal 2 (demo data)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BUILT TO SCALE -->
+<div style="background:#104C59;padding:88px 40px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:48px">
+      <p style="font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#F4771E;margin-bottom:10px">Built to scale</p>
+      <h2 class="lora" style="font-size:34px;font-weight:700;color:white;line-height:1.25;max-width:720px;margin:0 auto">
+        Ready for the way districts actually work
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+
+      <div>
+        <p class="lora" style="font-size:20px;font-weight:700;color:white;margin-bottom:10px">Governed</p>
+        <p style="font-size:14.5px;color:rgba(255,255,255,.75);line-height:1.75">Every answer traces back to data your district has approved. Nothing gets invented along the way.</p>
+      </div>
+
+      <div>
+        <p class="lora" style="font-size:20px;font-weight:700;color:white;margin-bottom:10px">Configurable</p>
+        <p style="font-size:14.5px;color:rgba(255,255,255,.75);line-height:1.75">Set up around your own goals and measures, not a fixed template you have to work around.</p>
+      </div>
+
+      <div>
+        <p class="lora" style="font-size:20px;font-weight:700;color:white;margin-bottom:10px">Private</p>
+        <p style="font-size:14.5px;color:rgba(255,255,255,.75);line-height:1.75">District data stays protected and under district control. You decide what goes in and who can see it.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CTA STRIP -->
+<div style="background:#FFE8D1;padding:64px 40px">
+  <div style="max-width:980px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center">
+    <div>
+      <p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#C25511;margin-bottom:10px">Ready to start?</p>
+      <h2 class="lora" style="font-size:32px;font-weight:700;color:#8B3A0A;line-height:1.2;margin-bottom:14px">See what this could look like in your <em style="color:#F4771E;font-style:italic">district</em>.</h2>
+      <p style="font-size:15px;color:#8B3A0A;line-height:1.7;opacity:.85">A free consult covers your goals, the data you already keep, and where a platform like this would help.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+      <a href="https://calendly.com/hailpernj" target="_blank" rel="noopener" style="display:inline-block;text-align:center;background:#F4771E;color:white;border:none;border-radius:100px;padding:13px 28px;font-size:15px;font-weight:500;text-decoration:none;width:100%">Book a free consult</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="background:white;padding:64px 44px 28px;border-top:1px solid rgba(16,76,89,.08)">
+  <div style="max-width:1400px;margin:0 auto">
+
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start;margin-bottom:48px">
+      <div style="min-width:0">
+        <img src="https://images.squarespace-cdn.com/content/v1/62d031f05ab7e430b22bb24e/787a7444-8408-4a46-a3e1-f1a33b3c3958/IK12Logo.png?format=300w" alt="InnovateK12" style="height:52px;object-fit:contain;display:block;margin-bottom:22px">
+        <p style="font-size:14.5px;color:#45666f;line-height:1.7;margin:0 0 22px;max-width:520px">InnovateK12 brings community voice and district data together. We run strategic planning and engagement for school districts, and we build the dashboards and tools that keep the plan on track.</p>
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(30,167,182,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#1ea7b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="font-size:13.5px;color:#45666f">hello@innovatek12.com</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:50%;background:rgba(244,119,30,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#F4771E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="#F4771E" stroke-width="1.8"/></svg></div>
+            <span style="font-size:13.5px;color:#45666f">Serving districts nationwide</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#f3f9f9;border-radius:18px;padding:32px 32px 28px;min-width:0">
+        <p class="lora" style="font-size:21px;font-weight:700;color:#104C59;margin:0 0 8px">Stay informed</p>
+        <p style="font-size:14px;color:#45666f;line-height:1.6;margin:0 0 20px">Strategic planning insights, district success stories, and resources delivered monthly.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="email" placeholder="Enter your email" style="flex:1;min-width:200px;background:white;border:1px solid rgba(16,76,89,.15);border-radius:100px;padding:13px 20px;font-size:14.5px;color:#104C59;outline:none;font-family:inherit">
+          <button style="background:#1ea7b6;color:white;border:none;border-radius:100px;padding:13px 28px;font-size:14.5px;font-weight:500;cursor:pointer;flex-shrink:0;white-space:nowrap">Subscribe</button>
+        </div>
+        <p style="font-size:12px;color:#8fa7ac;margin:14px 0 0">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:22px 0;border-top:1px solid rgba(16,76,89,.08)">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-left:-14px">
+        <a href="index.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Home</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="#" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Platform</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="about.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">About</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="services.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Services</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="videos.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Videos</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="innovatek20.html" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">InnovateK20</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="https://www.innovatek12.org/contact" target="_blank" rel="noopener" style="font-size:15px;color:#45666f;text-decoration:none;padding:6px 14px;border-radius:100px">Contact</a>
+        <span style="color:rgba(16,76,89,.25);font-size:14px">·</span>
+        <a href="https://calendly.com/hailpernj" target="_blank" rel="noopener" style="font-size:15px;color:#F4771E;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:100px">Book a Free Consult</a>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="https://www.instagram.com/innovatek12" target="_blank" rel="noopener" aria-label="Instagram" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#104C59" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="#104C59" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="#104C59"/></svg></a>
+        <a href="https://www.linkedin.com/company/innovatek12/" target="_blank" rel="noopener" aria-label="LinkedIn" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="#104C59" stroke-width="1.5"/><rect x="2" y="9" width="4" height="12" stroke="#104C59" stroke-width="1.5"/><circle cx="4" cy="4" r="2" stroke="#104C59" stroke-width="1.5"/></svg></a>
+        <a href="https://www.facebook.com/profile.php?id=61550680245476" target="_blank" rel="noopener" aria-label="Facebook" style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(16,76,89,.2);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="#104C59" stroke-width="1.5" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+
+    <div style="padding:18px 0 0;border-top:1px solid rgba(16,76,89,.08)">
+      <span style="font-size:13.5px;color:#8fa7ac">Design exploration by Shivani Jagannatham. Not the official InnovateK12 website.</span>
+    </div>
+
+    <div style="padding:14px 0 4px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+      <span style="font-size:13.5px;color:#8fa7ac">© 2026 InnovateK12. All rights reserved.</span>
+      <div style="display:flex;align-items:center;gap:22px">
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Privacy Policy</a>
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Terms of Service</a>
+        <a href="#" style="font-size:13px;color:#8fa7ac;text-decoration:none">Cookies</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
